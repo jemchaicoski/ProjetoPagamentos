@@ -1,8 +1,10 @@
 ﻿using Maoli;
 using ProjetoPagamentos.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjetoPagamentos.Domain.ValueObjects
 {
+    [Owned]
     public sealed class Document
     {
         public string Value { get; }
