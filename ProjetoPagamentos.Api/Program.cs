@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using ProjectPagamentos.Infrastructure.Persistence;
+using ProjetoPagamentos.Infrastructure.Persistence;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddOpenApi();
 var app = builder.Build();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
