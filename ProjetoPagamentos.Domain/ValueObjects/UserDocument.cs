@@ -7,29 +7,29 @@ namespace ProjetoPagamentos.Domain.ValueObjects
     [Owned]
     public sealed class UserDocument
     {
-        public string Value { get; }
+        public string Document { get; }
         public DocumentType Type { get; }
 
-        public UserDocument(string value)
+        public UserDocument(string document)
         {
-            value = new string(value.Where(char.IsDigit).ToArray());
+            document = new string(document.Where(char.IsDigit).ToArray());
 
-            if (value.Length == 11)
+            if (document.Length == 11)
             {
                 Type = DocumentType.Cpf;
-                if (!Cpf.Validate(value)) throw new ArgumentException("CPF inválido");
+                if (!Cpf.Validate(document)) throw new ArgumentException("CPF inválido");
             }
-            else if (value.Length == 14)
+            else if (document.Length == 14)
             {
                 Type = DocumentType.Cnpj;
-                if (!Cnpj.Validate(value)) throw new ArgumentException("CNPJ inválido");
+                if (!Cnpj.Validate(document)) throw new ArgumentException("CNPJ inválido");
             }
             else
             {
                 throw new ArgumentException("Documento deve ter 11 (CPF) ou 14 (CNPJ) dígitos.");
             }
 
-            Value = value;
+            Document = document;
         }
     }
 }

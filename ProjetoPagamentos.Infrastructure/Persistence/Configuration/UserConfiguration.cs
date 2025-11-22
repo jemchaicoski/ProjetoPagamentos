@@ -11,14 +11,14 @@ namespace ProjetoPagamentos.Infrastructure.Persistence.Configuration
             builder.ToTable("Users");
 
             builder.HasKey(u => u.Id);
-            builder.OwnsOne(u => u.Document, doc =>
+            builder.OwnsOne(u => u.UserDocument, doc =>
             {
-                doc.Property(d => d.Value)
+                doc.Property(d => d.Document)
                     .HasColumnName("Document")
                     .IsRequired();
             });
 
-            builder.Navigation(u => u.Document).IsRequired();
+            builder.Navigation(u => u.UserDocument).IsRequired();
 
             builder.Property(u => u.IsDeleted)
                 .IsRequired()

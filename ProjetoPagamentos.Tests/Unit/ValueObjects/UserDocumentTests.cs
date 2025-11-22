@@ -20,7 +20,7 @@ namespace ProjetoPagamentos.Tests.Domain.ValueObjects
         {
             var userDocument = new UserDocument(VALID_CPF);
 
-            Assert.Equal(VALID_CPF, userDocument.Value);
+            Assert.Equal(VALID_CPF, userDocument.Document);
             Assert.Equal(DocumentType.Cpf, userDocument.Type);
         }
 
@@ -29,7 +29,7 @@ namespace ProjetoPagamentos.Tests.Domain.ValueObjects
         {
             var userDocument = new UserDocument(VALID_CPF_FORMATTED);
 
-            Assert.Equal(VALID_CPF, userDocument.Value);
+            Assert.Equal(VALID_CPF, userDocument.Document);
             Assert.Equal(DocumentType.Cpf, userDocument.Type);
         }
 
@@ -38,7 +38,7 @@ namespace ProjetoPagamentos.Tests.Domain.ValueObjects
         {
             var userDocument = new UserDocument(VALID_CNPJ);
 
-            Assert.Equal(VALID_CNPJ, userDocument.Value);
+            Assert.Equal(VALID_CNPJ, userDocument.Document);
             Assert.Equal(DocumentType.Cnpj, userDocument.Type);
         }
 
@@ -47,7 +47,7 @@ namespace ProjetoPagamentos.Tests.Domain.ValueObjects
         {
             var userDocument = new UserDocument(VALID_CNPJ_FORMATTED);
 
-            Assert.Equal(VALID_CNPJ, userDocument.Value);
+            Assert.Equal(VALID_CNPJ, userDocument.Document);
             Assert.Equal(DocumentType.Cnpj, userDocument.Type);
         }
 
@@ -96,7 +96,7 @@ namespace ProjetoPagamentos.Tests.Domain.ValueObjects
         {
             var userDocument = new UserDocument(input);
 
-            Assert.Equal(expected, userDocument.Value);
+            Assert.Equal(expected, userDocument.Document);
         }
     }
 }
