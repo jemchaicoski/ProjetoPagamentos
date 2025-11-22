@@ -9,6 +9,9 @@ namespace ProjetoPagamentos.Domain.Entities
         {
             Document = document;
         }
+
+        private User() { }
+
         public required Document Document { get; set; }
         public bool IsDeleted { get; set; } = false;
 

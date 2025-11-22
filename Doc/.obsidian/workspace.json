@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bancos.md",
+                "file": "Comandos.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Bancos"
+              "title": "Comandos"
             }
           }
         ]
@@ -185,14 +185,16 @@
   },
   "active": "6554eb0a02a533ce",
   "lastOpenFiles": [
-    "ProjetoPagamentos.md",
-    "Enums/Status.md",
-    "Enums/DocumentType.md",
-    "Entidades/1 - User.md",
-    "Entidades/2 - Account.md",
     "Bancos.md",
-    "Entidades/0 - BaseEntity.md",
-    "Enums",
-    "Entidades"
+    "Comandos.md",
+    "Código",
+    "ProjetoPagamentos.md",
+    "Código/Enums/Status.md",
+    "Código/Enums/DocumentType.md",
+    "Código/Entidades/1 - User.md",
+    "Código/Entidades/2 - Account.md",
+    "Código/Entidades/0 - BaseEntity.md",
+    "Código/Enums",
+    "Código/Entidades"
   ]
 }
