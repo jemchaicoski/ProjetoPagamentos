@@ -2,7 +2,7 @@
 using ProjetoPagamentos.Domain.ValueObjects;
 using Xunit;
 
-namespace ProjetoPagamentos.Tests.Domain.Entities
+namespace ProjetoPagamentos.Tests.Unit.Entities
 {
     public class UserTests
     {

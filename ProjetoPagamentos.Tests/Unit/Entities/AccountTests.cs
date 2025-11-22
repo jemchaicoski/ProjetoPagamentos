@@ -3,7 +3,7 @@ using ProjetoPagamentos.Domain.Enums;
 using ProjetoPagamentos.Entities;
 using Xunit;
 
-namespace ProjetoPagamentos.Tests.Domain.Entities
+namespace ProjetoPagamentos.Tests.Unit.Entities
 {
     public class AccountTests
     {
