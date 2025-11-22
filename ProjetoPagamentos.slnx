@@ -3,4 +3,5 @@
   <Project Path="ProjetoPagamentos.Application/ProjetoPagamentos.Application.csproj" Id="97b5e800-053e-495b-b310-fcb502e5de09" />
   <Project Path="ProjetoPagamentos.Domain/ProjetoPagamentos.Domain.csproj" Id="0a99b60a-0d2b-41fd-9209-2fdc3c3ba639" />
   <Project Path="ProjetoPagamentos.Infrastructure/ProjetoPagamentos.Infrastructure.csproj" Id="35e02200-3697-4c81-9d72-67086e8ef314" />
+  <Project Path="ProjetoPagamentos.Tests/ProjetoPagamentos.Tests.csproj" Id="5e1c14ad-62ec-42f2-a993-489f86fcf871" />
 </Solution>

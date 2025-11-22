@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 namespace ProjetoPagamentos.Domain.ValueObjects
 {
     [Owned]
-    public sealed class Document
+    public sealed class UserDocument
     {
         public string Value { get; }
         public DocumentType Type { get; }
 
-        public Document(string value)
+        public UserDocument(string value)
         {
             value = new string(value.Where(char.IsDigit).ToArray());
 

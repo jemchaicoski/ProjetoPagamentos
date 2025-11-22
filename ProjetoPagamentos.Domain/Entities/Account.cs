@@ -7,6 +7,9 @@ namespace ProjetoPagamentos.Domain.Entities
     {
         public Account(Guid userId)
         {
+            if (userId == Guid.Empty)
+                throw new ArgumentException("UserId cannot be empty", nameof(userId));
+
             UserId = userId;
             AccountStatus = AccountStatus.Active;
         }
