@@ -12,8 +12,8 @@ using ProjetoPagamentos.Infrastructure.Persistence;
 namespace ProjetoPagamentos.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251122165940_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251122183912_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -94,7 +94,7 @@ namespace ProjetoPagamentos.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjetoPagamentos.Domain.Entities.User", b =>
                 {
-                    b.OwnsOne("ProjetoPagamentos.Domain.ValueObjects.Document", "Document", b1 =>
+                    b.OwnsOne("ProjetoPagamentos.Domain.ValueObjects.UserDocument", "Document", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");

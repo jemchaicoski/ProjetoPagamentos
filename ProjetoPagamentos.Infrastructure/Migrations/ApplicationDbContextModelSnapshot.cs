@@ -91,7 +91,7 @@ namespace ProjetoPagamentos.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjetoPagamentos.Domain.Entities.User", b =>
                 {
-                    b.OwnsOne("ProjetoPagamentos.Domain.ValueObjects.Document", "Document", b1 =>
+                    b.OwnsOne("ProjetoPagamentos.Domain.ValueObjects.UserDocument", "Document", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
