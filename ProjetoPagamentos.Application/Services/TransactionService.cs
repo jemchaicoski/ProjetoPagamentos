@@ -3,6 +3,7 @@ using ProjetoPagamentos.Api.Models.Requests;
 using ProjetoPagamentos.Api.Models.Responses;
 using ProjetoPagamentos.Application.Repositories;
 using ProjetoPagamentos.Domain.Entities.Transactions;
+using ProjetoPagamentos.Domain.Enums;
 
 namespace ProjetoPagamentos.Application.Services
 {
@@ -22,25 +23,37 @@ namespace ProjetoPagamentos.Application.Services
             var transaction = new CreditTransaction(
                 request.AccountId,
                 request.Amount,
-                request.ReferenceId
+                request.ReferenceId,
+                (Currency)request.Currency
             );
+
+            var errorMessage = "";
 
             var transactionList = _transactionRepository.GetAllByReferenceIdAsync(transaction.ReferenceId!).Result;
 
             if (!transactionList.IsNullOrEmpty())
-                return new CreateCreditTransactionResponse { ErrorMessage = "Operação concorrente bloqueada", Success = false };
+            {
+                errorMessage = "Operação concorrente bloqueada";
+            }
 
             var account = _accountRepository.GetByIdAsync(request.AccountId).Result;
 
             if (account == null)
-                return new CreateCreditTransactionResponse { ErrorMessage = "Conta não encontrada", Success = false };
+            {
+                errorMessage = "Conta não encontrada";
+            }
 
-            account!.AvailableBalance += request.Amount;
-            await _accountRepository.UpdateAsync(account);
+            var hasError = errorMessage == "";
+            if (hasError)
+            {
+                account!.AvailableBalance += request.Amount;
+                await _accountRepository.UpdateAsync(account);
+            }
 
+            transaction.ValidateTransaction(errorMessage);
             var transactionId = await _transactionRepository.CreateAsync(transaction);
 
-            return new CreateCreditTransactionResponse { TransactionId = transaction.TransactionId, ErrorMessage = "", Success = true };
+            return new CreateCreditTransactionResponse { TransactionId = transaction.TransactionId, ErrorMessage = errorMessage, Success = hasError };
         }
     }
 }

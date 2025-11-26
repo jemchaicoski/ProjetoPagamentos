@@ -15,7 +15,6 @@ namespace ProjetoPagamentos.Infrastructure.Repositories
 
         public async Task<string> CreateAsync(BaseTransaction transaction)
         {
-            transaction.ValidateTransaction();
             await _transactions.InsertOneAsync(transaction);
             return transaction.TransactionId;
         }

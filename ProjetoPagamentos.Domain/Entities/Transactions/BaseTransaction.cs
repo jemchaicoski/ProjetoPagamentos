@@ -6,7 +6,7 @@ namespace ProjetoPagamentos.Domain.Entities.Transactions
 {
     public abstract class BaseTransaction
     {
-        protected BaseTransaction(Guid accountId, TransactionType transactionType, decimal amount, string referenceId)
+        protected BaseTransaction(Guid accountId, TransactionType transactionType, decimal amount, string referenceId, Currency currency)
         {
             AccountId = accountId;
             TransactionType = transactionType;
@@ -14,6 +14,7 @@ namespace ProjetoPagamentos.Domain.Entities.Transactions
             CreatedAt = DateTime.UtcNow;
             TransactionStatus = TransactionStatus.Pending;
             ReferenceId = referenceId;
+            Currency = currency;
         }
 
         [BsonId]
@@ -31,7 +32,7 @@ namespace ProjetoPagamentos.Domain.Entities.Transactions
         public TransactionStatus TransactionStatus { get; set; }
         public string? ErrorMessage { get; set; }
 
-        abstract public bool ValidateTransaction();
+        abstract public bool ValidateTransaction(string errorMensage);
 
         protected void MarkAsCompleted()
         {

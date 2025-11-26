@@ -4,6 +4,7 @@ using ProjetoPagamentos.Api.Models.Responses;
 using ProjetoPagamentos.Application.Repositories;
 using ProjetoPagamentos.Domain.Entities;
 using ProjetoPagamentos.Domain.Entities.Transactions;
+using ProjetoPagamentos.Domain.Enums;
 using ProjetoPagamentos.Infrastructure.Repositories;
 
 namespace ProjetoPagamentos.Api.Controllers
@@ -43,7 +44,8 @@ namespace ProjetoPagamentos.Api.Controllers
                 var creditTransaction = new CreditTransaction(
                     accountId: account.Id,
                     amount: request.Amount,
-                    referenceId: request.ReferenceId
+                    referenceId: request.ReferenceId,
+                    (Currency)request.Currency
                 );
 
                 var transactionId = await _transactionRepository.CreateAsync(creditTransaction);
