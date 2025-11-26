@@ -39,9 +39,10 @@ namespace ProjetoPagamentos.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<Account> GetByIdAsync(Guid id)
+        public async Task<Account> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Accounts.FindAsync(id);
+
         }
         public async Task UpdateAsync(Account entity)
         {

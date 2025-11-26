@@ -13,6 +13,7 @@ namespace ProjetoPagamentos.Domain.Entities.Transactions
             Amount = amount;
             CreatedAt = DateTime.UtcNow;
             TransactionStatus = TransactionStatus.Pending;
+            ReferenceId = ObjectId.GenerateNewId().ToString();
         }
 
         [BsonId]
@@ -24,7 +25,7 @@ namespace ProjetoPagamentos.Domain.Entities.Transactions
         public decimal Amount { get; set; }
         public Currency Currency { get; set; }
         public string ReferenceId { get; set; }
-        public Dictionary<string, string> Metadata { get; set; }
+        public Dictionary<string, string> Metadata { get; set; } = new Dictionary<string, string>();
         public TransactionType TransactionType { get; set; }
         public DateTime CreatedAt { get; set; }
         public TransactionStatus TransactionStatus { get; set; }

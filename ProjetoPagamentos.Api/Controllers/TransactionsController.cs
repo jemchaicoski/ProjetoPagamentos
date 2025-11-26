@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProjetoPagamentos.Api.Models.Requests;
+using ProjetoPagamentos.Api.Models.Responses;
 using ProjetoPagamentos.Application.Repositories;
 using ProjetoPagamentos.Domain.Entities.Transactions;
+using System.Security.Principal;
 
 namespace ProjetoPagamentos.Api.Controllers
 {
@@ -9,10 +12,12 @@ namespace ProjetoPagamentos.Api.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly ITransactionRepository _transactionRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public TransactionsController(ITransactionRepository transactionRepository)
+        public TransactionsController(ITransactionRepository transactionRepository, IAccountRepository accountRepository)
         {
             _transactionRepository = transactionRepository;
+            _accountRepository = accountRepository;
         }
 
         [HttpPost("credit")]
@@ -24,13 +29,17 @@ namespace ProjetoPagamentos.Api.Controllers
                     request.AccountId,
                     request.Amount);
 
+                var account = _accountRepository.GetByIdAsync(request.AccountId).Result;
+
+                if (account == null)
+                    BadRequest("Conta não encontrada para operação de crédito");
+
+                account!.AvailableBalance += request.Amount;
+                await _accountRepository.UpdateAsync(account);
                 var transactionId = await _transactionRepository.CreateAsync(transaction);
 
-                return Ok(new
-                {
-                    TransactionId = transactionId,
-                    Message = "Transação de crédito criada com sucesso"
-                });
+                var response = new CreateCreditTransactionResponse { TransactionId = transactionId };
+                return CreatedAtAction(nameof(GetTransactionById), new { id = transactionId }, response);
             }
             catch (Exception ex)
             {
@@ -46,7 +55,7 @@ namespace ProjetoPagamentos.Api.Controllers
                 var transactions = await _transactionRepository.GetByAccountIdAsync(accountId);
                 return Ok(transactions);
             }
-            catch (Exception ex)
+            catch
             {
                 return BadRequest(new { Error = "Não foi possível buscar transações" });
             }
@@ -69,12 +78,5 @@ namespace ProjetoPagamentos.Api.Controllers
                 return BadRequest(new { Error = ex.Message });
             }
         }
-    }
-
-    // DTO para a request
-    public class CreateCreditTransactionRequest
-    {
-        public Guid AccountId { get; set; }
-        public decimal Amount { get; set; }
     }
 }

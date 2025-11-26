@@ -91,12 +91,12 @@ namespace ProjetoPagamentos.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjetoPagamentos.Domain.Entities.User", b =>
                 {
-                    b.OwnsOne("ProjetoPagamentos.Domain.ValueObjects.UserDocument", "Document", b1 =>
+                    b.OwnsOne("ProjetoPagamentos.Domain.ValueObjects.UserDocument", "UserDocument", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("Value")
+                            b1.Property<string>("Document")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)")
                                 .HasColumnName("Document");
@@ -109,7 +109,7 @@ namespace ProjetoPagamentos.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.Navigation("Document")
+                    b.Navigation("UserDocument")
                         .IsRequired();
                 });
 

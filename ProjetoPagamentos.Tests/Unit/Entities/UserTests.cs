@@ -22,6 +22,7 @@ namespace ProjetoPagamentos.Tests.Unit.Entities
             Assert.Empty(user.Accounts);
         }
 
+        [Fact]
         public void Constructor_WithValidCNPJ_ShouldInitializeCorrectly()
         {
             var document = new UserDocument(VALID_CPF);

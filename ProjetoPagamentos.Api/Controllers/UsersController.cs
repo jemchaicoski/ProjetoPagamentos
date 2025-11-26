@@ -21,7 +21,7 @@ namespace ProjetoPagamentos.Api.Controllers
             try
             {
                 if (await _userRepository.UserExistsAsync(CleanDocument(request.UserDocument!)))
-                    return BadRequest("Documento já existe");
+                    return BadRequest("Usuário já existe");
 
                 var document = new UserDocument(request.UserDocument!);
                 var user = new User { UserDocument = document };

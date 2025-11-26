@@ -12,7 +12,7 @@ using ProjetoPagamentos.Infrastructure.Persistence;
 namespace ProjetoPagamentos.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251122183912_InitialMigration")]
+    [Migration("20251126021629_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -94,12 +94,12 @@ namespace ProjetoPagamentos.Infrastructure.Migrations
 
             modelBuilder.Entity("ProjetoPagamentos.Domain.Entities.User", b =>
                 {
-                    b.OwnsOne("ProjetoPagamentos.Domain.ValueObjects.UserDocument", "Document", b1 =>
+                    b.OwnsOne("ProjetoPagamentos.Domain.ValueObjects.UserDocument", "UserDocument", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uniqueidentifier");
 
-                            b1.Property<string>("Value")
+                            b1.Property<string>("Document")
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)")
                                 .HasColumnName("Document");
@@ -112,7 +112,7 @@ namespace ProjetoPagamentos.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.Navigation("Document")
+                    b.Navigation("UserDocument")
                         .IsRequired();
                 });
 

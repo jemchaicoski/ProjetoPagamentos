@@ -49,12 +49,12 @@ namespace ProjetoPagamentos.Api.Controllers
 
                 if (transactionId == null)
                 {
-                    _accountRepository.DeleteAsync(account);
+                    await _accountRepository.DeleteAsync(account);
                     return BadRequest("Não foi possível realizar operação de crédito para criação de conta");
                 }
 
                 account.AvailableBalance = request.creditValue;
-                _accountRepository.UpdateAsync(account);
+                await _accountRepository.UpdateAsync(account);
 
                 var response = new CreateAccountResponse
                 {

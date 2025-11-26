@@ -14,6 +14,8 @@ namespace ProjetoPagamentos.Domain.Entities
             AccountStatus = AccountStatus.Active;
         }
 
+        public Account() { }
+
         public decimal AvailableBalance { get; set; }
         public decimal ReservedBalance { get; set; }
         public decimal CreditLimit { get; set; }
