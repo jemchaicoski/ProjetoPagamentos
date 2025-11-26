@@ -4,8 +4,8 @@ namespace ProjetoPagamentos.Domain.Entities.Transactions
 {
     public class CreditTransaction : BaseTransaction
     {
-        public CreditTransaction(Guid accountId, decimal amount)
-            : base(accountId, TransactionType.Credit, amount)
+        public CreditTransaction(Guid accountId, decimal amount, string referenceId)
+            : base(accountId, TransactionType.Credit, amount, referenceId)
         {
         }
 

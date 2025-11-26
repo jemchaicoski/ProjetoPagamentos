@@ -1,7 +1,6 @@
 ﻿using MongoDB.Driver;
 using ProjetoPagamentos.Application.Repositories;
 using ProjetoPagamentos.Domain.Entities.Transactions;
-using ProjetoPagamentos.Domain.Enums;
 
 namespace ProjetoPagamentos.Infrastructure.Repositories
 {
@@ -42,6 +41,13 @@ namespace ProjetoPagamentos.Infrastructure.Repositories
             );
 
             return result.DeletedCount > 0;
+        }
+
+        public async Task<List<BaseTransaction>> GetAllByReferenceIdAsync(string referenceId)
+        {
+            return await _transactions
+            .Find(t => t.ReferenceId == referenceId)
+            .ToListAsync();
         }
     }
 }

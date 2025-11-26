@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using ProjetoPagamentos.Application.Repositories;
+using ProjetoPagamentos.Application.Services;
 using ProjetoPagamentos.Domain.Entities.Transactions;
 using ProjetoPagamentos.Infrastructure.Persistence;
 using ProjetoPagamentos.Infrastructure.Repositories;
@@ -25,6 +26,7 @@ void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IAccountRepository, AccountRepository>();
     builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+    builder.Services.AddScoped<ITransactionService, TransactionService>();
     builder.Services.AddControllers();
 }
 

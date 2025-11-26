@@ -7,6 +7,7 @@ namespace ProjetoPagamentos.Application.Repositories
         Task<string> CreateAsync(BaseTransaction transaction);
         Task<BaseTransaction> GetByIdAsync(string id);
         Task<List<BaseTransaction>> GetByAccountIdAsync(Guid accountId);
+        Task<List<BaseTransaction>> GetAllByReferenceIdAsync(string referenceId);
         Task<bool> DeleteAsync(string id);
     }
 }

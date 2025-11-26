@@ -6,14 +6,14 @@ namespace ProjetoPagamentos.Domain.Entities.Transactions
 {
     public abstract class BaseTransaction
     {
-        protected BaseTransaction(Guid accountId, TransactionType transactionType, decimal amount)
+        protected BaseTransaction(Guid accountId, TransactionType transactionType, decimal amount, string referenceId)
         {
             AccountId = accountId;
             TransactionType = transactionType;
             Amount = amount;
             CreatedAt = DateTime.UtcNow;
             TransactionStatus = TransactionStatus.Pending;
-            ReferenceId = ObjectId.GenerateNewId().ToString();
+            ReferenceId = referenceId;
         }
 
         [BsonId]
@@ -24,7 +24,7 @@ namespace ProjetoPagamentos.Domain.Entities.Transactions
         public Guid AccountId { get; set; }
         public decimal Amount { get; set; }
         public Currency Currency { get; set; }
-        public string ReferenceId { get; set; }
+        public string? ReferenceId { get; set; }
         public Dictionary<string, string> Metadata { get; set; } = new Dictionary<string, string>();
         public TransactionType TransactionType { get; set; }
         public DateTime CreatedAt { get; set; }

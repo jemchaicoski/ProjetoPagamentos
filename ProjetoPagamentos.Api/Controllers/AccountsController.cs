@@ -32,7 +32,7 @@ namespace ProjetoPagamentos.Api.Controllers
             try {
                 if(request.UserId == Guid.Empty) return BadRequest("ID inválido");
 
-                if (request.creditValue <= 0) return BadRequest("Valor Inicial não pode ser igual ou menor que 0R$");
+                if (request.Amount <= 0) return BadRequest("Valor Inicial não pode ser igual ou menor que 0R$");
 
                 var user = await _userRepository.GetByIdAsync(request.UserId);
                 if (user == null) return BadRequest("Usuário não encontrado");
@@ -42,7 +42,8 @@ namespace ProjetoPagamentos.Api.Controllers
 
                 var creditTransaction = new CreditTransaction(
                     accountId: account.Id,
-                    amount: request.creditValue
+                    amount: request.Amount,
+                    referenceId: request.ReferenceId
                 );
 
                 var transactionId = await _transactionRepository.CreateAsync(creditTransaction);
@@ -53,7 +54,7 @@ namespace ProjetoPagamentos.Api.Controllers
                     return BadRequest("Não foi possível realizar operação de crédito para criação de conta");
                 }
 
-                account.AvailableBalance = request.creditValue;
+                account.AvailableBalance = request.Amount;
                 await _accountRepository.UpdateAsync(account);
 
                 var response = new CreateAccountResponse
