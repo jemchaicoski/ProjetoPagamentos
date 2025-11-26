@@ -14,9 +14,9 @@ namespace ProjetoPagamentos.Tests.Unit.Entities
         {
             var document = new UserDocument(VALID_CPF);
 
-            var user = new User { Document = document};
+            var user = new User { UserDocument = document};
 
-            Assert.Equal(document, user.Document);
+            Assert.Equal(document, user.UserDocument);
             Assert.False(user.IsDeleted);
             Assert.NotNull(user.Accounts);
             Assert.Empty(user.Accounts);
@@ -26,9 +26,9 @@ namespace ProjetoPagamentos.Tests.Unit.Entities
         {
             var document = new UserDocument(VALID_CPF);
 
-            var user = new User { Document = document };
+            var user = new User { UserDocument = document };
 
-            Assert.Equal(document, user.Document);
+            Assert.Equal(document, user.UserDocument);
             Assert.False(user.IsDeleted);
             Assert.NotNull(user.Accounts);
             Assert.Empty(user.Accounts);
@@ -38,7 +38,7 @@ namespace ProjetoPagamentos.Tests.Unit.Entities
         public void IsDeleted_ShouldSetAndGetCorrectly()
         {
             var document = new UserDocument(VALID_CNPJ);
-            var user = new User { Document = document };
+            var user = new User { UserDocument = document };
 
             user.IsDeleted = true;
 
@@ -49,7 +49,7 @@ namespace ProjetoPagamentos.Tests.Unit.Entities
         public void Accounts_ShouldInitializeAsEmptyCollection()
         {
             var document = new UserDocument(VALID_CNPJ);
-            var user = new User { Document = document };
+            var user = new User { UserDocument = document };
 
             Assert.NotNull(user.Accounts);
             Assert.Empty(user.Accounts);

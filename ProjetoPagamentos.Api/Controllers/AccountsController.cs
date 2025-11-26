@@ -3,6 +3,8 @@ using ProjetoPagamentos.Api.Models.Requests;
 using ProjetoPagamentos.Api.Models.Responses;
 using ProjetoPagamentos.Application.Repositories;
 using ProjetoPagamentos.Domain.Entities;
+using ProjetoPagamentos.Domain.Entities.Transactions;
+using ProjetoPagamentos.Infrastructure.Repositories;
 
 namespace ProjetoPagamentos.Api.Controllers
 {
@@ -12,13 +14,16 @@ namespace ProjetoPagamentos.Api.Controllers
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IUserRepository _userRepository;
+        private readonly ITransactionRepository _transactionRepository;
 
         public AccountsController(
             IAccountRepository accountRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            ITransactionRepository transactionRepository)
         {
             _accountRepository = accountRepository;
             _userRepository = userRepository;
+            _transactionRepository = transactionRepository;
         }
 
         [HttpPost]
@@ -33,8 +38,23 @@ namespace ProjetoPagamentos.Api.Controllers
                 if (user == null) return BadRequest("Usuário não encontrado");
 
                 var account = new Account(request.UserId);
-
                 await _accountRepository.AddAsync(account);
+
+                var creditTransaction = new CreditTransaction(
+                    accountId: account.Id,
+                    amount: request.creditValue
+                );
+
+                var transactionId = await _transactionRepository.CreateAsync(creditTransaction);
+
+                if (transactionId == null)
+                {
+                    _accountRepository.DeleteAsync(account);
+                    return BadRequest("Não foi possível realizar operação de crédito para criação de conta");
+                }
+
+                account.AvailableBalance = request.creditValue;
+                _accountRepository.UpdateAsync(account);
 
                 var response = new CreateAccountResponse
                 {
@@ -43,7 +63,8 @@ namespace ProjetoPagamentos.Api.Controllers
                     AvailableBalance = account.AvailableBalance,
                     ReservedBalance = account.ReservedBalance,
                     CreditLimit = account.CreditLimit,
-                    AccountStatus = account.AccountStatus.ToString()
+                    AccountStatus = account.AccountStatus.ToString(),
+                    TransactionId = transactionId
                 };
 
                 return CreatedAtAction(nameof(GetAccount), new { id = account.Id }, response);

@@ -20,6 +20,11 @@ namespace ProjetoPagamentos.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public Task<bool> DeleteAsync(User entity)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> ExistsAsync(Guid id)
         {
             throw new NotImplementedException();
@@ -50,12 +55,7 @@ namespace ProjetoPagamentos.Infrastructure.Repositories
             return await _context.Users.FindAsync(id);
         }
 
-        public void Remove(User entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(User entity)
+        public Task UpdateAsync(User entity)
         {
             throw new NotImplementedException();
         }

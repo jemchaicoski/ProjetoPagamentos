@@ -43,15 +43,25 @@ namespace ProjetoPagamentos.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
-
-        public void Remove(Account entity)
+        public async Task UpdateAsync(Account entity)
         {
-            throw new NotImplementedException();
+            _context.Accounts.Update(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Account entity)
+        public async Task<bool> DeleteAsync(Account entity)
         {
-            throw new NotImplementedException();
+            _context.Accounts.Remove(entity);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return false;
+            }
         }
     }
 }

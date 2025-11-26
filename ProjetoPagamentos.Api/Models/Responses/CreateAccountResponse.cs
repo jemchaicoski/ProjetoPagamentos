@@ -9,5 +9,6 @@
         public decimal ReservedBalance { get; set; }
         public decimal CreditLimit { get; set; }
         public required string AccountStatus { get; set; }
+        public string TransactionId { get; set; }
     }
 }
