@@ -9,6 +9,7 @@ namespace ProjetoPagamentos.Domain.Entities.Transactions
 
         public override bool ValidateTransaction(string errorMensage)
         {
+            //TODO: adicionar validação de saldo negativo na conta
             if (this.Amount <= 0 || errorMensage != "")
             {
                 this.MarkAsFailed(errorMensage);

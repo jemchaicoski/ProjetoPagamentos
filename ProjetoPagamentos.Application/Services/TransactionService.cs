@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using ProjetoPagamentos.Application.Repositories;
 using ProjetoPagamentos.Application.Services.Interfaces;
 using ProjetoPagamentos.Domain.Entities.Transactions;
@@ -90,6 +91,68 @@ namespace ProjetoPagamentos.Application.Services
             }
 
             return new CreateTransactionResponse { TransactionId = transaction.TransactionId, ErrorMessage = errorMessage, Success = hasError };
+        }
+
+        public async Task<CreateTransactionResponse> ProcessTransferTransactionAsync(CreateTransferTransactionRequest request)
+        {
+            var transaction = new TransferTransaction(
+                request.HolderAccountId,
+                request.TargetAccountId,
+                request.Amount,
+                request.ReferenceId,
+                (Currency)request.Currency
+            );
+
+            var errorMessage = "";
+
+            var existing = await _transactionRepository.GetAllByReferenceIdAsync(request.ReferenceId);
+            if (existing.Any())
+            {
+                errorMessage = "Operação concorrente bloqueada";
+            }
+
+            var holderAccount = _accountRepository.GetByIdAsync(request.HolderAccountId).Result;
+            var targetAccount = _accountRepository.GetByIdAsync(request.TargetAccountId).Result;
+
+            if (holderAccount == null || targetAccount == null)
+            {
+                errorMessage = "Conta(s) não encontrada(s)";
+                return new CreateTransactionResponse { TransactionId = transaction.TransactionId, ErrorMessage = errorMessage, Success = false };
+            }
+
+            if (holderAccount.AvailableBalance < request.Amount)
+            {
+                errorMessage = "Saldo insuficiente";
+                transaction.ValidateTransaction(errorMessage);
+                await _transactionRepository.CreateAsync(transaction);
+                return new CreateTransactionResponse
+                {
+                    TransactionId = transaction.TransactionId,
+                    ErrorMessage = errorMessage,
+                    Success = false
+                };
+            }
+
+            var hasError = errorMessage != "";
+
+            if (!hasError)
+            {
+                holderAccount.AvailableBalance -= request.Amount;
+                targetAccount.AvailableBalance += request.Amount;
+
+                await _accountRepository.UpdateAsync(holderAccount);
+                await _accountRepository.UpdateAsync(targetAccount);
+            }
+
+            transaction.ValidateTransaction(errorMessage);
+            await _transactionRepository.CreateAsync(transaction);
+
+            return new CreateTransactionResponse
+            {
+                TransactionId = transaction.TransactionId,
+                ErrorMessage = errorMessage,
+                Success = !hasError
+            };
         }
     }
 }

@@ -45,5 +45,20 @@ namespace ProjetoPagamentos.Api.Controllers
                 return BadRequest(new { Error = ex.Message });
             }
         }
+
+        [HttpPost("transfer")]
+        public async Task<IActionResult> ReserveTransaction([FromBody] CreateTransferTransactionRequest request)
+        {
+            try
+            {
+                var response = await _transactionService.ProcessTransferTransactionAsync(request);
+
+                return CreatedAtAction(nameof(CreditTransaction), new { id = response.TransactionId }, response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+        }
     }
 }
