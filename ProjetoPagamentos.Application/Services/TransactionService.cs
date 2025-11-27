@@ -2,6 +2,7 @@
 using ProjetoPagamentos.Api.Models.Requests;
 using ProjetoPagamentos.Api.Models.Responses;
 using ProjetoPagamentos.Application.Repositories;
+using ProjetoPagamentos.Application.Services.Interfaces;
 using ProjetoPagamentos.Domain.Entities.Transactions;
 using ProjetoPagamentos.Domain.Enums;
 

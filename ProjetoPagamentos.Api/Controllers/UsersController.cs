@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjetoPagamentos.Domain.Entities;
-using ProjetoPagamentos.Domain.ValueObjects;
+using ProjetoPagamentos.Application.Services.Interfaces;
+using ProjetoPagamentos.Domain.Models.Requests;
 
 namespace ProjetoPagamentos.Api.Controllers
 {
@@ -8,11 +8,11 @@ namespace ProjetoPagamentos.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
-        public UsersController(IUserRepository userRepository)
+        public UsersController(IUserService userService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
         }
 
         [HttpPost]
@@ -20,64 +20,15 @@ namespace ProjetoPagamentos.Api.Controllers
         {
             try
             {
-                if (await _userRepository.UserExistsAsync(CleanDocument(request.UserDocument!)))
-                    return BadRequest("Usuário já existe");
+                var response = _userService.ProcessCreateUserAsync(request).Result;
 
-                var document = new UserDocument(request.UserDocument!);
-                var user = new User { UserDocument = document };
-
-                await _userRepository.AddAsync(user);
-
-                var response = new CreateUserResponse
-                {
-                    Id = user.Id,
-                    UserDocument = user.UserDocument.Document,
-                    DocumentType = user.UserDocument.Type.ToString()
-                };
-
-                return CreatedAtAction(nameof(GetUser), new { id = user.Id }, response);
+                return CreatedAtAction(nameof(CreateUser), new { id = response.Id }, response);
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser(Guid id)
-        {
-            var user = await _userRepository.GetByIdAsync(id);
-            if (user == null) return NotFound();
-
-            var response = new CreateUserResponse
-            {
-                Id = user.Id,
-                UserDocument = user.UserDocument.Document,
-                DocumentType = user.UserDocument.Type.ToString()
-            };
-
-            return Ok(response);
-        }
-
-        private string CleanDocument(string document)
-        {
-            if (string.IsNullOrWhiteSpace(document))
-                throw new ArgumentException("Documento não pode ser vazio");
-
-            return new string(document.Where(char.IsDigit).ToArray());
-        }
-    }
-
-    public class CreateUserRequest
-    {
-        public string? UserDocument { get; set; }
-    }
-
-    public class CreateUserResponse
-    {
-        public Guid Id { get; set; }
-        public string? UserDocument { get; set; }
-        public string? DocumentType { get; set; }
     }
 }
 
