@@ -1,1 +1,0 @@
-O objetivo deste exercício é implementar um sistema de processamento de transações financeiras que será o núcleo transacional de uma nova plataforma de adquirência. O sistema deve lidar com operações financeiras em um ambiente onde volume, concorrência e confiabilidade são críticos

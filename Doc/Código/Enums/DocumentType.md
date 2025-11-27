@@ -1,1 +1,0 @@
-define se o documento é CNPJ ou CPF

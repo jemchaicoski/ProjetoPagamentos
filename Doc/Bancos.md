@@ -1,1 +1,0 @@
-Escolhi utilizar o banco relacional ==Microsoft SQL Server== para todas as entidades, mas para logs de operações decidi utilizar ==MongoDB== pela velocidade e performance de registro, considerando que serão apenas documentos não utilizados para escrita, apenas consulta e registro.
