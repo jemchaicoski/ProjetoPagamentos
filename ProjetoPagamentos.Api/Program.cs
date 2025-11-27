@@ -27,6 +27,7 @@ void ConfigureServices(WebApplicationBuilder builder)
     builder.Services.AddScoped<IAccountRepository, AccountRepository>();
     builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
     builder.Services.AddScoped<ITransactionService, TransactionService>();
+    builder.Services.AddScoped<IAccountService , AccountService>();
     builder.Services.AddControllers();
 }
 

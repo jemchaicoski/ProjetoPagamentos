@@ -2,9 +2,9 @@
 {
     public class CreateCreditTransactionRequest
     {
-        public required Guid AccountId { get; set; }
-        public required decimal Amount { get; set; }
-        public required int Currency { get; set; }
-        public required string ReferenceId { get; set; }
+        public Guid AccountId { get; set; }
+        public decimal Amount { get; set; }
+        public int Currency { get; set; }
+        public string ReferenceId { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace ProjetoPagamentos.Domain.Entities
     {
         public User() { }
 
-        public required UserDocument UserDocument { get; set; }
+        public UserDocument UserDocument { get; set; }
         public bool IsDeleted { get; set; } = false;
 
         public ICollection<Account> Accounts { get; set; } = new List<Account>();
