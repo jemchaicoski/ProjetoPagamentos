@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using ProjetoPagamentos.Application.Repositories;
 using ProjetoPagamentos.Application.Services.Interfaces;
+using ProjetoPagamentos.Domain.Entities;
 using ProjetoPagamentos.Domain.Entities.Transactions;
 using ProjetoPagamentos.Domain.Enums;
 using ProjetoPagamentos.Domain.Models.Requests;
@@ -81,6 +82,18 @@ namespace ProjetoPagamentos.Application.Services
             if (account == null)
             {
                 errorMessage = "Conta não encontrada";
+
+                return new CreateTransactionResponse
+                {
+                    TransactionId = transaction.TransactionId,
+                    ErrorMessage = errorMessage,
+                    Success = true
+                };
+            }
+
+            if (account.AvailableBalance < request.Amount)
+            {
+                errorMessage = "Saldo insuficiente";
             }
 
             var hasError = errorMessage != "";
@@ -115,9 +128,22 @@ namespace ProjetoPagamentos.Application.Services
             if (account == null)
             {
                 errorMessage = "Conta não encontrada";
+
+                return new CreateTransactionResponse
+                {
+                    TransactionId = transaction.TransactionId,
+                    ErrorMessage = errorMessage,
+                    Success = true
+                };
+            }
+
+            if (account.AvailableBalance < request.Amount)
+            {
+                errorMessage = "Saldo insuficiente";
             }
 
             var hasError = errorMessage != "";
+
             if (!hasError)
             {
                 account!.AvailableBalance -= request.Amount;
@@ -159,6 +185,18 @@ namespace ProjetoPagamentos.Application.Services
             if (account == null)
             {
                 errorMessage = "Conta não encontrada";
+
+                return new CreateTransactionResponse
+                {
+                    TransactionId = transaction.TransactionId,
+                    ErrorMessage = errorMessage,
+                    Success = true
+                };
+            }
+
+            if (account.AvailableBalance < request.Amount)
+            {
+                errorMessage = "Saldo insuficiente";
             }
 
             var hasError = errorMessage != "";
