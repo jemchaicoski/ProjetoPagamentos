@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Código/Entidades/3 - Transaction e heranças.md",
+                "file": "Chat links.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "3 - Transaction e heranças"
+              "title": "Chat links"
             }
           }
         ]
@@ -185,8 +185,9 @@
   },
   "active": "6554eb0a02a533ce",
   "lastOpenFiles": [
-    "Código/Entidades/2 - Account.md",
     "Código/Entidades/3 - Transaction e heranças.md",
+    "Chat links.md",
+    "Código/Entidades/2 - Account.md",
     "Comandos.md",
     "Bancos.md",
     "Código",

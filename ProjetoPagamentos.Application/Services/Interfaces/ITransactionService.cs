@@ -7,6 +7,7 @@ namespace ProjetoPagamentos.Application.Services.Interfaces
     {
         Task<CreateTransactionResponse> ProcessCreditTransactionAsync(CreateCreditTransactionRequest request);
         Task<CreateTransactionResponse> ProcessDebitTransactionAsync(CreateDebitTransactionRequest request);
+        Task<CreateTransactionResponse> ProcessReserveTransactionAsync(CreateReserveTransactionRequest request);
         Task<CreateTransactionResponse> ProcessTransferTransactionAsync(CreateTransferTransactionRequest request);
     }
 }

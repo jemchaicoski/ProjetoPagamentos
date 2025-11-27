@@ -4,6 +4,7 @@
     {
         Credit,
         Debit,
+        Reserve,
         Transfer
     }
 }

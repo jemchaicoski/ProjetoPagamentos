@@ -45,8 +45,8 @@ namespace ProjetoPagamentos.Application.Services
                 errorMessage = "Conta não encontrada";
             }
 
-            var hasError = errorMessage == "";
-            if (hasError)
+            var hasError = errorMessage != "";
+            if (!hasError)
             {
                 account!.AvailableBalance += request.Amount;
                 await _accountRepository.UpdateAsync(account);
@@ -55,7 +55,7 @@ namespace ProjetoPagamentos.Application.Services
             transaction.ValidateTransaction(errorMessage);
             var transactionId = await _transactionRepository.CreateAsync(transaction);
 
-            return new CreateTransactionResponse { TransactionId = transaction.TransactionId, ErrorMessage = errorMessage, Success = hasError };
+            return new CreateTransactionResponse { TransactionId = transaction.TransactionId, ErrorMessage = errorMessage, Success = !hasError };
         }
 
         public async Task<CreateTransactionResponse> ProcessDebitTransactionAsync(CreateDebitTransactionRequest request)
@@ -83,16 +83,58 @@ namespace ProjetoPagamentos.Application.Services
                 errorMessage = "Conta não encontrada";
             }
 
-            var hasError = errorMessage == "";
-            if (hasError)
+            var hasError = errorMessage != "";
+            if (!hasError)
             {
                 account!.AvailableBalance -= request.Amount;
                 await _accountRepository.UpdateAsync(account);
             }
 
-            return new CreateTransactionResponse { TransactionId = transaction.TransactionId, ErrorMessage = errorMessage, Success = hasError };
+            return new CreateTransactionResponse { TransactionId = transaction.TransactionId, ErrorMessage = errorMessage, Success = !hasError };
         }
+        public async Task<CreateTransactionResponse> ProcessReserveTransactionAsync(CreateReserveTransactionRequest request) 
+        {
+            var transaction = new ReserveTransaction(
+                request.AccountId,
+                request.Amount,
+                request.ReferenceId,
+                (Currency)request.Currency
+            );
 
+            var errorMessage = "";
+
+            var transactionList = _transactionRepository.GetAllByReferenceIdAsync(transaction.ReferenceId!).Result;
+
+            if (!transactionList.IsNullOrEmpty())
+            {
+                errorMessage = "Operação concorrente bloqueada";
+            }
+
+            var account = _accountRepository.GetByIdAsync(request.AccountId).Result;
+
+            if (account == null)
+            {
+                errorMessage = "Conta não encontrada";
+            }
+
+            var hasError = errorMessage != "";
+            if (!hasError)
+            {
+                account!.AvailableBalance -= request.Amount;
+                account!.ReservedBalance += request.Amount;
+                await _accountRepository.UpdateAsync(account);
+            }
+
+            transaction.ValidateTransaction(errorMessage);
+            await _transactionRepository.CreateAsync(transaction);
+
+            return new CreateTransactionResponse
+            {
+                TransactionId = transaction.TransactionId,
+                ErrorMessage = errorMessage,
+                Success = !hasError
+            };
+        }
         public async Task<CreateTransactionResponse> ProcessTransferTransactionAsync(CreateTransferTransactionRequest request)
         {
             var transaction = new TransferTransaction(
@@ -154,5 +196,6 @@ namespace ProjetoPagamentos.Application.Services
                 Success = !hasError
             };
         }
+
     }
 }

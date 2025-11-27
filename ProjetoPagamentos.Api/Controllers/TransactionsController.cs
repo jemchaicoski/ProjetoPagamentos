@@ -38,7 +38,22 @@ namespace ProjetoPagamentos.Api.Controllers
             {
                 var response = await _transactionService.ProcessDebitTransactionAsync(request);
 
-                return CreatedAtAction(nameof(CreditTransaction), new { id = response.TransactionId }, response);
+                return CreatedAtAction(nameof(DebitTransaction), new { id = response.TransactionId }, response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+        }
+
+        [HttpPost("reserve")]
+        public async Task<IActionResult> ReserveTransaction([FromBody] CreateReserveTransactionRequest request)
+        {
+            try
+            {
+                var response = _transactionService.ProcessReserveTransactionAsync(request).Result;
+
+                return CreatedAtAction(nameof(ReserveTransaction), new { id = response.TransactionId }, response);
             }
             catch (Exception ex)
             {
@@ -47,13 +62,13 @@ namespace ProjetoPagamentos.Api.Controllers
         }
 
         [HttpPost("transfer")]
-        public async Task<IActionResult> ReserveTransaction([FromBody] CreateTransferTransactionRequest request)
+        public async Task<IActionResult> TransferTransaction([FromBody] CreateTransferTransactionRequest request)
         {
             try
             {
                 var response = await _transactionService.ProcessTransferTransactionAsync(request);
 
-                return CreatedAtAction(nameof(CreditTransaction), new { id = response.TransactionId }, response);
+                return CreatedAtAction(nameof(TransferTransaction), new { id = response.TransactionId }, response);
             }
             catch (Exception ex)
             {
