@@ -1,7 +1,10 @@
 # ProjetoPagamentos
 
 # Explicação das decisões técnicas e arquiteturais
-A arquitetura base escolhida foi Clean Architecture pelo foco na simplicidade e da separação bem estruturada do código, para os bancos escolhi utilizar o banco relacional ==Microsoft SQL Server== para todas as entidades, mas para logs de operações decidi utilizar ==MongoDB== pela velocidade e performance de registro.
+A arquitetura base escolhida foi Clean Architecture pelo foco na simplicidade e da separação bem estruturada do código, para os bancos escolhi utilizar o banco relacional ==Microsoft SQL Server== as entidades de Usuário e Conta, mas para logs de operações decidi utilizar ==MongoDB== pela velocidade e performance de registro, as "Transactions" utilizam do padrão strategy herdando da BaseTransaction e se especializando em cada operação especificada.
+
+## Pendência
+Eu gostaria de ter implementado com o padrão OutboxMessage o envio de logs de operação para o MongoDB, tendo uma tabela no SQL Server salvando os registros e enviando com um worker para o mongo periodicamente, consequentemente a operação de Estorno também fica pendente, pois não seria ideal o uso de documentos no mongo para essa operação. Outra pendência é a atomicidade das operações, atualmente estou travando elas com verificações de valores dos campos, mas seria necessário uma reformulação utilizando sessões para cada operação feita, assim permitindo rollback de cada uma delas com segurança.
 
 # Justificativa para uso de frameworks/bibliotecas
 - EFCore e derivados: Acredito que o uso de ORM facilita o trabalho com banco de dados de forma geral, permite também escalar o produto para N bancos diferentes com facilidade.
