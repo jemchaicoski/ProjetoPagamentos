@@ -7,31 +7,44 @@ using ProjetoPagamentos.Application.Services.Interfaces;
 using ProjetoPagamentos.Domain.Entities.Transactions;
 using ProjetoPagamentos.Infrastructure.Persistence;
 using ProjetoPagamentos.Infrastructure.Repositories;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigureServices(builder);
 ConfigureSqlServer(builder);
 ConfigureMongoDB(builder);
-ConfigureOpenApi(builder);
 
 var app = builder.Build();
 
 ConfigurePipeline(app);
-ConfigureDevelopmentSettings(app);
 
 app.Run();
 
+
 void ConfigureServices(WebApplicationBuilder builder)
 {
+    // DI
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IAccountRepository, AccountRepository>();
     builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
     builder.Services.AddScoped<ITransactionService, TransactionService>();
-    builder.Services.AddScoped<IAccountService , AccountService>();
+    builder.Services.AddScoped<IAccountService, AccountService>();
     builder.Services.AddScoped<IUserService, UserService>();
+
+    // Swagger
+    builder.Services.AddSwaggerGen(c =>
+    {
+        var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+        if (File.Exists(xmlPath))
+            c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
+    });
+
     builder.Services.AddControllers();
 }
+
 
 void ConfigureSqlServer(WebApplicationBuilder builder)
 {
@@ -39,40 +52,38 @@ void ConfigureSqlServer(WebApplicationBuilder builder)
         options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
 }
 
+
 void ConfigureMongoDB(WebApplicationBuilder builder)
 {
     var connectionString = builder.Configuration.GetConnectionString("MongoDbConnection");
     var databaseName = builder.Configuration["MongoDbSettings:DatabaseName"];
+
     var client = new MongoClient(connectionString);
     var database = client.GetDatabase(databaseName);
 
     builder.Services.AddSingleton(database);
 
-    BsonClassMap.RegisterClassMap<CreditTransaction>(cm =>
+    if (!BsonClassMap.IsClassMapRegistered(typeof(CreditTransaction)))
     {
-        cm.AutoMap();
-        cm.SetDiscriminator("CreditTransaction");
-    });
+        BsonClassMap.RegisterClassMap<CreditTransaction>(cm =>
+        {
+            cm.AutoMap();
+            cm.SetDiscriminator("CreditTransaction");
+        });
+    }
 }
 
-void ConfigureOpenApi(WebApplicationBuilder builder)
-{
-    builder.Services.AddOpenApi();
-    builder.Configuration
-        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-}
 
 void ConfigurePipeline(WebApplication app)
 {
-    app.UseHttpsRedirection();
-    app.UseAuthorization();
-    app.MapControllers();
-}
-
-void ConfigureDevelopmentSettings(WebApplication app)
-{
     if (app.Environment.IsDevelopment())
     {
-        app.MapOpenApi();
+        app.UseSwagger();
+        app.UseSwaggerUI();
     }
+
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+
+    app.MapControllers();
 }
