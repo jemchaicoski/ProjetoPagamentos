@@ -21,3 +21,25 @@ Dentro do proeto ProjetoPagamentos.Tests rodar o comando `dotnet test`
 
 # Exemplos de uso da API
 Estarei utilizando postman para testes de api
+
+## Criar Usuário
+<img width="1484" height="654" alt="image" src="https://github.com/user-attachments/assets/bd813a44-be97-46cf-8e59-4057fb3f6a1a" />
+
+## Criar Conta
+<img width="1496" height="760" alt="image" src="https://github.com/user-attachments/assets/adaa0bbc-e180-48d0-b38e-56c30f92d957" />
+
+## Operação de Crédito
+<img width="1485" height="729" alt="image" src="https://github.com/user-attachments/assets/edefac7a-1baf-4905-8849-91589e7d0fa5" />
+
+## Operação de Débito
+<img width="1478" height="683" alt="image" src="https://github.com/user-attachments/assets/2980d965-6e98-413b-ad98-34b5758be44b" />
+
+
+## Operação de Reserva
+<img width="1489" height="720" alt="image" src="https://github.com/user-attachments/assets/267c8399-a73e-42d5-8676-a76d6401ff4d" />
+
+
+## Operação de Transferência
+<img width="1479" height="661" alt="image" src="https://github.com/user-attachments/assets/fcb40598-c4b8-4a4f-8956-5843ae163697" />
+
+
