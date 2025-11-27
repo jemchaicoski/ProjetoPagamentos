@@ -135,6 +135,51 @@ namespace ProjetoPagamentos.Application.Services
                 Success = !hasError
             };
         }
+
+        public async Task<CreateTransactionResponse> ProcessCaptureTransactionAsync(CreateCaptureTransactionRequest request)
+        {
+            var transaction = new CaptureTransaction(
+                request.AccountId,
+                request.Amount,
+                request.ReferenceId,
+                (Currency)request.Currency
+            );
+
+            var errorMessage = "";
+
+            var transactionList = _transactionRepository.GetAllByReferenceIdAsync(transaction.ReferenceId!).Result;
+
+            if (!transactionList.IsNullOrEmpty())
+            {
+                errorMessage = "Operação concorrente bloqueada";
+            }
+
+            var account = _accountRepository.GetByIdAsync(request.AccountId).Result;
+
+            if (account == null)
+            {
+                errorMessage = "Conta não encontrada";
+            }
+
+            var hasError = errorMessage != "";
+            if (!hasError)
+            {
+                account!.ReservedBalance -= request.Amount;
+                account!.AvailableBalance += request.Amount;
+                await _accountRepository.UpdateAsync(account);
+            }
+
+            transaction.ValidateTransaction(errorMessage);
+            await _transactionRepository.CreateAsync(transaction);
+
+            return new CreateTransactionResponse
+            {
+                TransactionId = transaction.TransactionId,
+                ErrorMessage = errorMessage,
+                Success = !hasError
+            };
+        }
+
         public async Task<CreateTransactionResponse> ProcessTransferTransactionAsync(CreateTransferTransactionRequest request)
         {
             var transaction = new TransferTransaction(

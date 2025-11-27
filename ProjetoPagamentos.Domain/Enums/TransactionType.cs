@@ -5,6 +5,7 @@
         Credit,
         Debit,
         Reserve,
+        Capture,
         Transfer
     }
 }

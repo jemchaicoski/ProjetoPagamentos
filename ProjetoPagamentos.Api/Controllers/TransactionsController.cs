@@ -61,6 +61,21 @@ namespace ProjetoPagamentos.Api.Controllers
             }
         }
 
+        [HttpPost("capture")]
+        public async Task<IActionResult> CaptureTransaction([FromBody] CreateCaptureTransactionRequest request)
+        {
+            try
+            {
+                var response = _transactionService.ProcessCaptureTransactionAsync(request).Result;
+
+                return CreatedAtAction(nameof(CaptureTransaction), new { id = response.TransactionId }, response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+        }
+
         [HttpPost("transfer")]
         public async Task<IActionResult> TransferTransaction([FromBody] CreateTransferTransactionRequest request)
         {
