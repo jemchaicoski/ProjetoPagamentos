@@ -1,4 +1,4 @@
-﻿namespace ProjetoPagamentos.Api.Models.Requests
+﻿namespace ProjetoPagamentos.Domain.Models.Requests
 {
     public class CreateCreditTransactionRequest
     {

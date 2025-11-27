@@ -1,4 +1,4 @@
-﻿namespace ProjetoPagamentos.Api.Models.Responses
+﻿namespace ProjetoPagamentos.Domain.Models.Responses
 {
 
     public class CreateAccountResponse

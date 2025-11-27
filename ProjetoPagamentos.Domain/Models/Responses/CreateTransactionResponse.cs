@@ -1,6 +1,6 @@
-﻿namespace ProjetoPagamentos.Api.Models.Responses
+﻿namespace ProjetoPagamentos.Domain.Models.Responses
 {
-    public class CreateCreditTransactionResponse
+    public class CreateTransactionResponse
     {
         public string? TransactionId { get; set; }
         public bool? Success { get; set; }

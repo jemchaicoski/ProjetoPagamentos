@@ -2,14 +2,15 @@
 
 namespace ProjetoPagamentos.Domain.Entities.Transactions
 {
-    public class CreditTransaction : BaseTransaction
+    public class DebitTransaction : BaseTransaction
     {
-        public CreditTransaction(Guid accountId, decimal amount, string referenceId, Currency currency)
-            : base(accountId, TransactionType.Credit, amount, referenceId, currency) { }
+        public DebitTransaction(Guid accountId, decimal amount, string referenceId, Currency currency)
+            : base(accountId, TransactionType.Debit, amount, referenceId, currency) { }
 
         public override bool ValidateTransaction(string errorMensage)
         {
-            if (this.Amount <= 0 || errorMensage != "") {
+            if (this.Amount <= 0 || errorMensage != "")
+            {
                 this.MarkAsFailed(errorMensage);
                 return false;
             }

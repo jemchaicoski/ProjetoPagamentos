@@ -1,8 +1,8 @@
 ﻿namespace ProjetoPagamentos.Domain.Models.Requests
 {
-    public class CreateAccountRequest
+    public class CreateDebitTransactionRequest
     {
-        public Guid UserId { get; set; }
+        public Guid AccountId { get; set; }
         public decimal Amount { get; set; }
         public int Currency { get; set; }
         public string ReferenceId { get; set; }

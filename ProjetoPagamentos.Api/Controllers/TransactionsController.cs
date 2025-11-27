@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjetoPagamentos.Api.Models.Requests;
 using ProjetoPagamentos.Application.Repositories;
 using ProjetoPagamentos.Application.Services.Interfaces;
+using ProjetoPagamentos.Domain.Models.Requests;
 
 namespace ProjetoPagamentos.Api.Controllers
 {
@@ -22,6 +22,21 @@ namespace ProjetoPagamentos.Api.Controllers
             try
             {
                 var response = await _transactionService.ProcessCreditTransactionAsync(request);
+
+                return CreatedAtAction(nameof(CreditTransaction), new { id = response.TransactionId }, response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+        }
+
+        [HttpPost("debit")]
+        public async Task<IActionResult> DebitTransaction([FromBody] CreateDebitTransactionRequest request)
+        {
+            try
+            {
+                var response = await _transactionService.ProcessDebitTransactionAsync(request);
 
                 return CreatedAtAction(nameof(CreditTransaction), new { id = response.TransactionId }, response);
             }

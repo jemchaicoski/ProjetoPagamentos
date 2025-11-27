@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjetoPagamentos.Api.Models.Requests;
-using ProjetoPagamentos.Api.Models.Responses;
 using ProjetoPagamentos.Application.Services.Interfaces;
+using ProjetoPagamentos.Domain.Models.Requests;
 
 namespace ProjetoPagamentos.Api.Controllers
 {
