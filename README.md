@@ -6,7 +6,7 @@ A arquitetura base escolhida foi Clean Architecture, pelo foco na simplicidade e
 
 ## Pendências
 
-Eu gostaria de ter implementado, com o padrão OutboxMessage, o envio de logs de operação para o MongoDB, tendo uma tabela no SQL Server salvando os registros e enviando com um worker para o Mongo periodicamente. Consequentemente, a operação de estorno também fica pendente, pois não seria ideal o uso de documentos no Mongo para essa operação. Outra pendência é a atomicidade das operações: atualmente estou travando elas com verificações dos valores dos campos, mas seria necessária uma reformulação utilizando sessões para cada operação feita, permitindo assim o rollback de cada uma delas com segurança.
+Eu gostaria de ter implementado com o padrão OutboxMessage o envio de logs de operação para o MongoDB, tendo uma tabela no SQL Server salvando os registros e enviando com um worker para o Mongo periodicamente. Consequentemente a operação de estorno também fica pendente, pois não seria ideal o uso de documentos no Mongo para essa operação. Outra pendência é a atomicidade das operações: atualmente estou travando elas com verificações dos valores dos campos mas seria necessária uma reformulação utilizando sessões para cada operação feita, permitindo assim o rollback de cada uma delas com segurança.
 
 ## Justificativa para uso de frameworks/bibliotecas
 
