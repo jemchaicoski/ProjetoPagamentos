@@ -42,4 +42,7 @@ Estarei utilizando postman para testes de api
 ## Operação de Transferência
 <img width="1479" height="661" alt="image" src="https://github.com/user-attachments/assets/fcb40598-c4b8-4a4f-8956-5843ae163697" />
 
+# Testes
+Cobertura de testes
+<img width="1213" height="108" alt="image" src="https://github.com/user-attachments/assets/f1891fc6-4eae-49d8-9be1-2db84960d8ad" />
 
